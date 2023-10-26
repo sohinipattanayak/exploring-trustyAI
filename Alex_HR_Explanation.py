@@ -1,17 +1,12 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
 
-data = {
-    "Candidate Name": ["Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Henry", "Ivy", "Jack"],
-    "Education Score": [8, 7, 9, 6, 8, 5, 9, 6, 8, 6],
-    "Years of Experience": [5, 3, 6, 3, 5, 2, 6, 3, 6, 2],
-    "Number of Projects": [4, 3, 5, 2, 5, 2, 6, 2, 5, 3],
-    "Communication Score": [7, 6, 8, 6, 7, 5, 8, 5, 7, 6],
-    "Technical Score": [8, 7, 9, 7, 8, 6, 9, 5, 7, 6],
-    "Leadership Score": [6, 5, 7, 5, 7, 4, 8, 4, 7, 4],
-    "College Pedigree": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
-    "Name Bias": [1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
-    "Hired": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
-}
+# Load the synthetic dataset
+data = pd.read_csv("candidates.csv")
 
-df = pd.DataFrame(data)
-df.to_csv("candidates.csv", index=False)
+# Assume "Hired" column is the target and rest are features
+X = data.drop(columns=["Candidate Name", "Hired"])
+y = data["Hired"]
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
