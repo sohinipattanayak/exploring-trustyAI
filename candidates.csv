@@ -1,0 +1,11 @@
+Candidate Name,Education Score,Years of Experience,Number of Projects,Communication Score,Technical Score,Leadership Score,College Pedigree,Name Bias,Hired
+Alice,8,5,4,7,8,6,1,1,1
+Bob,7,3,3,6,7,5,0,1,0
+Charlie,9,6,5,8,9,7,1,0,1
+David,6,3,2,6,7,5,0,1,0
+Eva,8,5,5,7,8,7,1,0,1
+Frank,5,2,2,5,6,4,0,1,0
+Grace,9,6,6,8,9,8,1,0,1
+Henry,6,3,2,5,5,4,0,1,0
+Ivy,8,6,5,7,7,7,1,0,1
+Jack,6,2,3,6,6,4,0,1,0

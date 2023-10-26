@@ -1,46 +1,17 @@
-import numpy as np
-from trustyai.model import Model
-from trustyai.explainers import LimeExplainer
+import pandas as pd
 
-# Define weights for the model. In a real-world scenario, these would come from training data.
-weights = np.random.uniform(low=-5, high=5, size=7)
-print(f"Weights for Features: {weights}")
+data = {
+    "Candidate Name": ["Alice", "Bob", "Charlie", "David", "Eva", "Frank", "Grace", "Henry", "Ivy", "Jack"],
+    "Education Score": [8, 7, 9, 6, 8, 5, 9, 6, 8, 6],
+    "Years of Experience": [5, 3, 6, 3, 5, 2, 6, 3, 6, 2],
+    "Number of Projects": [4, 3, 5, 2, 5, 2, 6, 2, 5, 3],
+    "Communication Score": [7, 6, 8, 6, 7, 5, 8, 5, 7, 6],
+    "Technical Score": [8, 7, 9, 7, 8, 6, 9, 5, 7, 6],
+    "Leadership Score": [6, 5, 7, 5, 7, 4, 8, 4, 7, 4],
+    "College Pedigree": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+    "Name Bias": [1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    "Hired": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+}
 
-# Simple linear model representing the recruitment decision process.
-def recruitment_model(x):
-    return np.dot(x, weights)
-
-model = Model(recruitment_model)
-
-# Sigmoid function to squash values between 0 and 1.
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-# Sample data for a candidate.
-candidate_data = np.random.rand(1, 7)
-raw_hiring_score = model(candidate_data)
-predicted_hiring_score_percentage = sigmoid(raw_hiring_score) * 100
-
-lime_explainer = LimeExplainer(samples=1000, normalise_weights=False)
-lime_explanation = lime_explainer.explain(
-    inputs=candidate_data,
-    outputs=raw_hiring_score,
-    model=model)
-
-print(lime_explanation.as_dataframe())
-
-print("Summary of the explanation:")
-if raw_hiring_score > 0:
-  print("The candidate is likely to be selected.")
-else:
-  print("The candidate is unlikely to be selected.")
-
-print(f"Predicted Hiring Score Percentage: {predicted_hiring_score_percentage[0]:.2f}%")
-
-print("Feature weights:")
-for feature, weight in zip(["Years of Experience", "Technical Skill Certifications",
-                            "Duration at the Last Job", "Number of Projects Completed",
-                            "GitHub Repositories and Contributions", "Education Level",
-                            "Name Bias (American-sounding=1, Non-American sounding=0)",
-                            "College Attended (Pedigree=1, Non-Pedigree=0)"], weights):
-  print(f"{feature}: {weight:.2f}")
+df = pd.DataFrame(data)
+df.to_csv("candidates.csv", index=False)
