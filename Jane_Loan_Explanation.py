@@ -36,20 +36,32 @@ print("Feature weights:")
 for feature, weight in zip(["Annual Income", "Number of Open Accounts", "Number of times Late Payment in the past", "Debt-to-Income Ratio", "Number of Credit Inquiries in the last 6 months"], weights):
     print(f"{feature}: {weight:.2f}")
 
-# Visualizing LIME results for the given applicant_data
-
 # Access the dataframe for the output
 output_df = lime_explanation.as_dataframe()["output-0"]
 
 # Now sort the dataframe
 exp_df = output_df.sort_values(by="Saliency")
 
+# Mapping for input indices to feature names
+feature_mapping = {
+    "input-0": "Annual Income",
+    "input-1": "Number of Open Accounts",
+    "input-2": "Number of times Late Payment in the past",
+    "input-3": "Debt-to-Income Ratio",
+    "input-4": "Number of Credit Inquiries in the last 6 months"
+}
+
 y_axis = list(exp_df['Saliency'])
-x_axis = list(exp_df['Feature'])
+x_axis = [feature_mapping[feature] for feature in exp_df['Feature']]
 colors = []
 
+# Find the feature with highest influence
+most_influential_feature_value = max(y_axis, key=abs)
+
 for bar in y_axis:
-    if bar < 0:
+    if bar == most_influential_feature_value:
+        colors.append("green")  # Highlighting the most influential feature with a different color
+    elif bar < 0:
         colors.append("red")
     else:
         colors.append("blue")
@@ -61,4 +73,5 @@ ax.bar(x_axis, height=y_axis, color=colors)
 plt.title('LIME: Feature Impact for Loan Application')
 plt.xticks(rotation=20, ha='right', fontsize=10)
 plt.axhline(0, color="black")  # x-axis line
+plt.tight_layout()  # Adjust layout for better visualization
 plt.show()
