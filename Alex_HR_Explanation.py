@@ -39,8 +39,6 @@ lime_explanation = lime_explainer.explain(
 
 print(lime_explanation.as_dataframe())
 
-# ... [rest of the code above this remains unchanged]
-
 # Access the dataframe for the output
 output_df = lime_explanation.as_dataframe()["output-0"]
 
